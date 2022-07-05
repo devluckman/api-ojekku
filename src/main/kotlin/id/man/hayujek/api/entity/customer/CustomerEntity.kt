@@ -9,5 +9,5 @@ package id.man.hayujek.api.entity.customer
 data class CustomerEntity (
     val id : String,
     val username: String,
-    val password: String
+    var password: String?
     )
