@@ -3,13 +3,11 @@ package id.man.hayujek.authenticator
 import com.fasterxml.jackson.databind.ObjectMapper
 import id.man.hayujek.Constants
 import id.man.hayujek.api.base.BaseResponse
-import id.man.hayujek.api.service.MainServices
 import id.man.hayujek.exception.MainException
 import id.man.hayujek.extentions.Empty
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.UnsupportedJwtException
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.context.SecurityContextHolder

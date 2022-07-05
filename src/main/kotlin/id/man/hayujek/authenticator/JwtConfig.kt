@@ -1,10 +1,9 @@
 package id.man.hayujek.authenticator
 
 import id.man.hayujek.Constants
-import id.man.hayujek.api.entity.customer.CustomerEntity
+import id.man.hayujek.api.entity.user.UserEntity
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
-import io.jsonwebtoken.io.Encoders
 import io.jsonwebtoken.security.Keys
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Configuration
@@ -18,7 +17,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import java.util.*
 import java.util.stream.Collectors
 import javax.servlet.http.HttpServletRequest
-import kotlin.math.exp
 
 /**
  *
@@ -47,19 +45,20 @@ class JwtConfig : WebSecurityConfigurerAdapter() {
     companion object {
         val postPermit = listOf(
             "/v1/api/customer/login",
-            "/v1/api/customer/register"
+            "/v1/api/customer/register",
+            "/v1/api/driver/login",
+            "/v1/api/driver/register"
         )
         val getPermit = listOf(
-            "/v1/api/customer/hello",
+            "/v1/api/hello",
         )
 
-        fun generateToken(customerEntity: CustomerEntity): String {
-            val subject = customerEntity.id
+        fun generateToken(entity: UserEntity): String {
             val expired = Date(System.currentTimeMillis() + (60_000 * 60 * 24))
-            val granted = AuthorityUtils.commaSeparatedStringToAuthorityList(customerEntity.username)
+            val granted = AuthorityUtils.commaSeparatedStringToAuthorityList(entity.username)
             val grantedStream = granted.stream().map { it.authority }.collect(Collectors.toList())
             return Jwts.builder()
-                .setSubject(subject)
+                .setSubject(entity.id) // subject
                 .claim(Constants.CLAIM, grantedStream)
                 .setExpiration(expired)
                 .signWith(Keys.hmacShaKeyFor(Constants.SECRET.toByteArray()), SignatureAlgorithm.HS256)

@@ -1,8 +1,9 @@
 package id.man.hayujek.api.service
 
-import id.man.hayujek.api.entity.customer.CustomerEntity
-import id.man.hayujek.api.entity.customer.CustomerLoginRequest
-import id.man.hayujek.api.entity.customer.CustomerLoginResponse
+import id.man.hayujek.api.entity.user.UserData
+import id.man.hayujek.api.entity.user.UserEntity
+import id.man.hayujek.api.entity.user.UserLoginRequest
+import id.man.hayujek.api.entity.user.UserLoginResponse
 
 /**
  *
@@ -14,14 +15,13 @@ interface MainServices {
 
     // region Customer
 
-    fun loginCustomer(request : CustomerLoginRequest): Result<CustomerLoginResponse>
+    fun login(request : UserLoginRequest, role : String): Result<UserLoginResponse>
 
-    fun registerCustomer(customerEntity : CustomerEntity) : Result<Boolean>
+    fun register(userEntity: UserEntity) : Result<Boolean>
 
-    fun getCustomerById(id : String) : Result<CustomerEntity>
+    fun getUserById(id : String, role : String) : Result<UserData>
 
-    fun getCustomerByUserName(userName : String) : Result<CustomerEntity>
-
+    fun getUserByUserName(userName : String, role : String) : Result<UserData>
     // endregion
 
 }

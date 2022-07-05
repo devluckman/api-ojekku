@@ -1,6 +1,6 @@
 package id.man.hayujek.api.repository
 
-import id.man.hayujek.api.entity.customer.CustomerEntity
+import id.man.hayujek.api.entity.user.UserEntity
 
 /**
  *
@@ -10,25 +10,12 @@ import id.man.hayujek.api.entity.customer.CustomerEntity
 
 interface MainRepository {
 
-    // region Driver
-
-    fun loginDriver(request : Any): Result<Any>
-
-    fun registerDriver(request : Any): Result<Any>
-
-    fun getDriver(request : Any) : Result<Any>
-
-    // endregion
-
     // region Customer
+    fun register(userEntity: UserEntity) : Result<Boolean>
 
-    fun loginCustomer(request : Any): Result<Any>
+    fun getUserById(id : String) : Result<UserEntity>
 
-    fun registerCustomer(customerEntity : CustomerEntity) : Result<Boolean>
-
-    fun getCustomerById(id : String) : Result<CustomerEntity>
-
-    fun getCustomerByUserName(userName : String) : Result<CustomerEntity>
+    fun getUserByUserName(userName : String) : Result<UserEntity>
 
     // endregion
 }

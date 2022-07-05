@@ -1,8 +1,7 @@
 package id.man.hayujek.api.repository
 
 import com.mongodb.client.MongoCollection
-import id.man.hayujek.api.entity.customer.CustomerEntity
-import id.man.hayujek.api.entity.driver.DriverEntity
+import id.man.hayujek.api.entity.user.UserEntity
 import id.man.hayujek.database.DatabaseComponent
 import id.man.hayujek.exception.MainException
 import id.man.hayujek.extentions.toResult
@@ -26,53 +25,31 @@ class MainRepositoryImpl(
 
     // region Initialize
 
-
-    private fun driverCollection(): MongoCollection<DriverEntity> =
-        databaseComponent.database.getDatabase("driver").getCollection()
-
-    private fun customerCollection(): MongoCollection<CustomerEntity> =
-        databaseComponent.database.getDatabase("customer").getCollection()
+    private fun hayuJekCollection(): MongoCollection<UserEntity> =
+        databaseComponent.database.getDatabase("hayujek").getCollection()
 
     // endregion
 
-    // region Driver
 
-    override fun loginDriver(request: Any): Result<Any> {
-        return Result.success("")
-    }
+    // region Repository User
 
-    override fun registerDriver(request: Any): Result<Any> {
-        return Result.success("")
-    }
-
-    override fun getDriver(request: Any): Result<Any> {
-        return Result.success("")
-    }
-
-    // endregion
-
-    // region Customer
-
-    override fun loginCustomer(request: Any): Result<Any> {
-        return Result.success("")
-    }
-
-    override fun registerCustomer(customerEntity: CustomerEntity): Result<Boolean> {
-        val isExistingUser = getCustomerByUserName(customerEntity.username)
+    override fun register(userEntity: UserEntity): Result<Boolean> {
+        val isExistingUser = getUserByUserName(userEntity.username)
         return if (isExistingUser.isSuccess) {
-            throw MainException("Customer Exist!")
+            throw MainException("User Exist!")
         } else {
-            customerCollection().insertOne(customerEntity).wasAcknowledged().toResult()
+            hayuJekCollection().insertOne(userEntity).wasAcknowledged().toResult()
         }
     }
 
-    override fun getCustomerById(id: String): Result<CustomerEntity> {
-        return customerCollection().findOne(CustomerEntity::id eq id).toResult()
+    override fun getUserById(id: String): Result<UserEntity> {
+        return hayuJekCollection().findOne(UserEntity::id eq id)
+            .toResult("User not found!")
     }
 
-    override fun getCustomerByUserName(userName: String): Result<CustomerEntity> {
-        return customerCollection().findOne(CustomerEntity::username eq userName)
-            .toResult("Customer with name $userName not found!")
+    override fun getUserByUserName(userName: String): Result<UserEntity> {
+        return hayuJekCollection().findOne(UserEntity::username eq userName)
+            .toResult("User with name $userName not found!")
     }
 
     // endregion
