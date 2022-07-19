@@ -53,6 +53,9 @@ class JwtConfig : WebSecurityConfigurerAdapter() {
             "/v1/api/hello",
             "/v1/api/customer/hello",
             "/v1/api/driver/hello",
+            "/v1/api/location/search",
+            "/v1/api/location/reserve",
+            "/v1/api/location/routes"
         )
 
         fun generateToken(entity: UserEntity): String {
